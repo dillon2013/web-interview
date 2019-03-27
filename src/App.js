@@ -10,11 +10,18 @@ import { Appointments } from './components/appointment/Appointment'
 import { Home } from './components/home/Home'
 
 class App extends Component {
+
+  state = {
+    user: undefined
+  }
+
   componentDidMount() {
     fetch(`${API_ENDPOINT}/users/1`)
       .then(res => res.json())
-      .then(() => {
+      .then((user) => {
         // TODO: Handle response here
+        this.setState(() => ({user}))
+        console.log(user)
       })
       .catch(() => {
         // TODO: Handle error here
@@ -22,27 +29,35 @@ class App extends Component {
   }
 
   render() {
+    const { user } = this.state;
     return (
       <div className="app">
         <Router>
           <header className="app-header">
-            <img src={logo} className="app-logo" alt="logo" />
-            <nav>
+            <div className="logo">
+              <Link to="/"><img src={logo} className="app-logo" alt="logo" /></Link>
+            </div>
+
+            <nav className="nav">
               <ul>
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/new-appointment">Book</Link>
                 </li>
                 <li>
-                  <Link to="/new-appointment/">Book</Link>
+                  <Link to="/appointments">Appointments</Link>
                 </li>
                 <li>
-                  <Link to="/appointments/">Appointments</Link>
+                  <Link to="/">Family Members</Link>
                 </li>
               </ul>
             </nav>
+
+            <div className="profile">
+              <span>{user && user.firstName[0].toUpperCase()}{user && user.lastName[0].toUpperCase()}</span>
+            </div>
           </header>
           <Route path="/" exact component={Home} />
-          <Route path="/new-appointment/" component={NewAppointment} />
+          <Route path="/new-appointment/" component={() => <NewAppointment {...user}/>} />
           <Route path="/appointments/" component={Appointments} />
         </Router>
       </div>
