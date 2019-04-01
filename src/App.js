@@ -12,7 +12,7 @@ import { Home } from './components/home/Home'
 class App extends Component {
 
   state = {
-    user: undefined
+    user: {}
   }
 
   componentDidMount() {
@@ -41,24 +41,26 @@ class App extends Component {
             <nav className="nav">
               <ul>
                 <li>
-                  <Link to="/new-appointment">Book</Link>
+                  <Link to="/new-appointment"><i className="far fa-calendar-plus" /> Book</Link>
                 </li>
                 <li>
-                  <Link to="/appointments">Appointments</Link>
+                  <Link to="/appointments"><i className="far fa-calendar-alt" /> Appointments</Link>
                 </li>
                 <li>
-                  <Link to="/">Family Members</Link>
+                  <Link to="/"><i className="fas fa-user-friends" /> Family Members</Link>
                 </li>
               </ul>
             </nav>
 
             <div className="profile">
-              <span>{user && user.firstName[0].toUpperCase()}{user && user.lastName[0].toUpperCase()}</span>
+              <span>{user && user.firstName && user.firstName[0].toUpperCase()}{user && user.lastName && user.lastName[0].toUpperCase()}</span>
             </div>
           </header>
-          <Route path="/" exact component={Home} />
-          <Route path="/new-appointment/" component={() => <NewAppointment {...user}/>} />
-          <Route path="/appointments/" component={Appointments} />
+          <main>
+            <Route path="/" exact component={Home} />
+            <Route path="/new-appointment/" component={() => <NewAppointment user={user}/>} />
+            <Route path="/appointments/" component={Appointments} />
+          </main>
         </Router>
       </div>
     )
