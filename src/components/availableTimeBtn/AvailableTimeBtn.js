@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { formatTime, isToday } from '../../utils/dateUtils'
 
 const AvailableTime = ({selectedTime, time, onSelected}) => (
   <button
@@ -14,14 +14,4 @@ const AvailableTime = ({selectedTime, time, onSelected}) => (
 
 export {
   AvailableTime
-}
-
-function formatTime (time) {
-  return moment(time).format('HH:mm')
-}
-
-function isToday (date) {
-  const today = new Date();
-  const sameDay = moment(today).isSame(date, 'day')
-  return sameDay;
 }

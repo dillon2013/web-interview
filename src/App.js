@@ -6,7 +6,7 @@ import { API_ENDPOINT } from './config'
 
 import './App.scss'
 import { NewAppointment } from './components/newAppointment/NewAppointment'
-import { Appointments } from './components/appointment/Appointment'
+import { Appointments } from './components/appointment/Appointments'
 import { Home } from './components/home/Home'
 
 class App extends Component {

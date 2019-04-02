@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { API_ENDPOINT } from '../../config';
 import { AvailableTime } from '../availableTimeBtn/AvailableTimeBtn'
 
@@ -49,12 +48,18 @@ class NewAppointment extends React.PureComponent {
 
   postBooking = (selectedTime, notes) => {
     console.log('posted');
-    axios.post(`${API_ENDPOINT}/appointments`, {
-      userId: 123,
-      dateTime: selectedTime,
-      notes,
-      type: 'GP appointment',
-    })
+    fetch(`${API_ENDPOINT}/appointments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: 123,
+        dateTime: selectedTime,
+        notes,
+        type: 'GP appointment',
+      })
+    });
   }
 
 
