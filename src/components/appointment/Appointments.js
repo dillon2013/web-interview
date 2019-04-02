@@ -13,8 +13,8 @@ class Appointments extends React.PureComponent {
       .then((appointments) => {
         this.setState(() => ({appointments}))
       })
-      .catch(() => {
-
+      .catch((err) => {
+        console.log(err)
       })
   }
 
@@ -26,7 +26,7 @@ class Appointments extends React.PureComponent {
         <h1>Appointments</h1>
         <h3>Upcoming</h3>
         <ul className="appointment-list">
-          { appointments.map(appointment => <AppointmentItem {...appointment} /> )}
+          { appointments.map(appointment => <AppointmentItem key={appointment} {...appointment} /> )}
         </ul>
       </div>
     )

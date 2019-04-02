@@ -5,7 +5,8 @@ import { AvailableTime } from '../availableTimeBtn/AvailableTimeBtn'
 class NewAppointment extends React.PureComponent {
   state = {
     availableTimes: [],
-    selectedTime: undefined
+    selectedTime: undefined,
+    message: undefined
   }
 
   componentDidMount () {
@@ -18,17 +19,23 @@ class NewAppointment extends React.PureComponent {
       .then((availableTimes) => {
         this.setState(() => ({availableTimes}))
       })
-      .catch(() => {
-        // TODO: Handle error here
+      .catch((err) => {
+        console.log(err)
       })
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('submit form!', this.state.selectedTime, this.state.notes)
-    const { selectedTime, notes }  =this.state;
-    this.postBooking(selectedTime, notes);
-    this.resetForm();
+    const { selectedTime, notes }  = this.state;
+    if(selectedTime && notes) {
+      this.postBooking(selectedTime, notes);
+      this.resetForm();
+    } else {
+      this.setState({
+        message: 'please complete the form'
+      })
+    }
+
   }
 
   onChange = (e) => {
@@ -43,11 +50,11 @@ class NewAppointment extends React.PureComponent {
     this.setState(() => ({
       selectedTime: '',
       notes: '',
+      message: '',
     }))
   }
 
   postBooking = (selectedTime, notes) => {
-    console.log('posted');
     fetch(`${API_ENDPOINT}/appointments`, {
       method: 'POST',
       headers: {
@@ -72,7 +79,7 @@ class NewAppointment extends React.PureComponent {
       }
     } = this.props;
 
-    const { availableTimes, selectedTime, notes } = this.state;
+    const { availableTimes, selectedTime, notes, message } = this.state;
 
     return (
       <div>
@@ -95,7 +102,7 @@ class NewAppointment extends React.PureComponent {
               <h3> Date & Time</h3>
               <div>
                 { availableTimes.map(time => (
-                  <AvailableTime onSelected={this.onSelectTime} selectedTime={selectedTime} time={time} />
+                  <AvailableTime key={time} onSelected={this.onSelectTime} selectedTime={selectedTime} time={time} />
                 ))}
               </div>
             </div>
@@ -117,6 +124,8 @@ class NewAppointment extends React.PureComponent {
           </div>
           <input type="submit" value="Book"/>
         </form>
+
+        {message && <p className="message">{ message }</p>}
 
       </div>
     )

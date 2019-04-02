@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 function AppointmentItem({type, dateTime}) {
   return (
@@ -14,6 +15,11 @@ function AppointmentItem({type, dateTime}) {
       </div>
     </li>
   )
+}
+
+AppointmentItem.propTypes = {
+  type: PropTypes.string,
+  dateTime: PropTypes.string
 }
 
 export {
